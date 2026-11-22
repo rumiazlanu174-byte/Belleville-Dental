@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belleville Dental Clinic | Services</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="banner.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Dropdown CSS */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; left: 0; background-color: #ffffff;
+            min-width: 175px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); border-radius: 10px;
+            z-index: 1000; overflow: hidden; border: 1px solid #e2e8f0; padding: 6px 0;
+        }
+        .dropdown-content a {
+            color: #1e293b !important; padding: 10px 16px !important; text-decoration: none;
+            display: block !important; font-size: 14px; transition: background 0.2s, color 0.2s; margin: 0 !important;
+        }
+        .dropdown-content a:hover { background-color: #e8f4f0; color: #0d4a38 !important; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Visitor Counter */
+        .visitor {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(13, 74, 56, 0.1);
+            color: #0d4a38;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .visitor i {
+            font-size: 14px;
+        }
+        
+        /* Footer copyright */
+        footer {
+            padding-bottom: 45px;
+        }
+        .copyright {
+            text-align: center;
+            padding: 20px 10px 0 10px;
+            margin-top: 35px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            color: #8fa89b;
+        }
+
+        /* Enhanced Balanced Footer CSS with Logo Animation */
+        .footer-grid {
+            display: grid !important;
+            grid-template-columns: 1.5fr 0.9fr 0.9fr 1.15fr 1.25fr !important;
+            gap: 28px !important;
+            align-items: start;
+        }
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr !important; }
+        }
+        .footer-brand-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .footer-brand-wrap img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            animation: footerLogoFloat 3s ease-in-out infinite;
+            transition: transform 0.4s ease, filter 0.4s ease;
+            cursor: pointer;
+        }
+        .footer-brand-wrap img:hover {
+            animation-play-state: paused;
+            transform: scale(1.2) rotate(8deg);
+            filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+        }
+        @keyframes footerLogoFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% {
+                transform: translateY(-6px) scale(1.06);
+                filter: drop-shadow(0 5px 8px rgba(52, 211, 153, 0.4));
+            }
+        }
+        .footer-brand-wrap h2 { margin: 0; letter-spacing: 1px; color: #ffffff; }
+        .footer-brand-wrap p { margin: 0; font-size: 12px; color: #a7d7c5; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .footer-desc {
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: #b4c9be;
+            margin-bottom: 16px;
+        }
+
+        .footer-social-links { display: flex; gap: 10px; }
+        .footer-social-links a {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .footer-social-links a:hover { background: #34d399; color: #083325; transform: translateY(-3px); }
+
+        .footer-hours-list { list-style: none; padding: 0; margin: 0; }
+        .footer-hours-list li {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #b4c9be;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+        .footer-hours-list li:last-child { border-bottom: none; }
+        .footer-hours-list li span:last-child { color: #a7d7c5; font-weight: 500; }
+
+        .footer-contact-item {
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px !important;
+            color: #b4c9be;
+            font-size: 13.5px;
+            text-decoration: none;
+        }
+        .footer-contact-item i {
+            font-size: 15px;
+            color: #34d399;
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        a.footer-contact-item:hover { color: #34d399; }
+
+        /* Video Clickable Hover Effect */
+        .card .video-wrapper {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .card .video-wrapper::after {
+            content: "\f04e";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(8, 51, 37, 0.7);
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .card .video-wrapper:hover::after {
+            opacity: 1;
+        }
+
+        /* Lightbox Modal CSS */
+        .video-lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+        .lightbox-content video {
+            width: 100%;
+            max-height: 75vh;
+            display: block;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+        .lightbox-close:hover {
+            color: #34d399;
+        }
+
+        /* Floating Chat Button & Chatbox Styling */
+        .chat-widget-btn {
+            position: fixed;
+            right: 22px;
+            bottom: 52px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #0d4a38;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+            z-index: 9998;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        .chat-widget-btn:hover {
+            transform: scale(1.06);
+            background: #176950;
+        }
+
+        .chat-box-container {
+            position: fixed;
+            right: 22px;
+            bottom: 52px;
+            width: 350px;
+            max-width: calc(100vw - 24px);
+            max-height: 75vh;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #0d4a38, #2b7a62);
+            color: #ffffff;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chat-header-info h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .chat-header-info p {
+            margin: 2px 0 0;
+            font-size: 11.5px;
+            opacity: 0.9;
+        }
+        .chat-close-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        .chat-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            background: #f8fafc;
+        }
+        .chat-message {
+            padding: 10px 13px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.45;
+            max-width: 86%;
+            word-wrap: break-word;
+        }
+        .chat-message.bot {
+            background: #ffffff;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            align-self: flex-start;
+        }
+        .chat-message.user {
+            background: #0d4a38;
+            color: #ffffff;
+            align-self: flex-end;
+        }
+        .chat-message.bot a {
+            color: #0d4a38;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Chatbox Quick Replies & Link Styling */
+        .chat-quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+        }
+        .chat-quick-btn {
+            background: #ffffff;
+            color: #0d4a38;
+            border: 1px solid #0d4a38;
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 11.5px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .chat-quick-btn:hover {
+            background: #0d4a38;
+            color: #ffffff;
+        }
+
+        .chat-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 9px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            outline: none;
+        }
+        .chat-input:focus {
+            border-color: #0d4a38;
+        }
+        .chat-send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: #0d4a38;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s ease;
+        }
+        .chat-send-btn:hover {
+            background: #176950;
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <a href="index.html" class="logo">
+        <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Bellevile Dental Logo" class="logo-img">
+        <span>BELLEVILLE<small>DENTAL CLINIC</small></span>
+    </a>
+
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="doctors.html">Doctors</a>
+        <a class="active" href="services.html">Services</a>
+        <a href="research.html">Research</a>
+        <a href="products.html">Products</a>
+        <a href="kidsgaming.html">Kids Zone</a>
+        <a href="gellery.html">Gallery</a>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">More <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="FAQ.html"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+                <a href="index.html#reviews-section"><i class="fa-solid fa-star"></i> Patient Reviews</a>
+                <a href="sitemap.html"><i class="fa-solid fa-sitemap"></i> Sitemap</a>
+            </div>
+        </div>
+        <a href="contact.html">Contact</a>
+        <a href="appoinment.html" class="nav-appointment">Book Appointment</a>
+    </nav>
+
+    <div class="visitor" title="Total Visitors">
+        <i class="fa-solid fa-eye"></i>
+        <span id="visitorCount">1</span>
+    </div>
+</header>
+
+<!-- PAGE BANNER -->
+<section class="page-banner">
+    <h1>Our Services</h1>
+    <p>Complete dental care for every beautiful smile</p>
+</section>
+
+<!-- SERVICES CARDS WITH VIDEOS & LIGHTBOX -->
+<section class="section">
+    <div class="cards">
+        <!-- 1. General Dentistry -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/1st video.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/1st video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>General Dentistry</h3>
+            <p>Regular dental checkups, cleanings, and complete oral health care.</p>
+        </div>
+
+        <!-- 2. Teeth Whitening -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/2nd video.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/2nd video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Teeth Whitening</h3>
+            <p>Safe and professional teeth whitening for a brighter smile.</p>
+        </div>
+
+        <!-- 3. Orthodontics -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/3rd video.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/3rd video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Orthodontics</h3>
+            <p>Modern braces and clear aligners for perfectly aligned teeth.</p>
+        </div>
+
+        <!-- 4. Root Canal -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/4th video.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/4th video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Root Canal</h3>
+            <p>Painless treatment to save infected or damaged natural teeth.</p>
+        </div>
+
+        <!-- 5. Kids Dentistry -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/5th.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/5th.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Kids Dentistry</h3>
+            <p>Gentle, fun, and stress-free dental checkups and care for children.</p>
+        </div>
+
+        <!-- 6. Teeth Polishing -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/polish.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/polish.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Teeth Polishing</h3>
+            <p>Deep cleaning and surface stain removal for smooth, shiny teeth.</p>
+        </div>
+
+        <!-- 7. Emergency Care -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/emergancy.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/emergancy.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Emergency Care</h3>
+            <p>Immediate relief and urgent treatment for toothaches and injuries.</p>
+        </div>
+
+        <!-- 8. Dental Implants -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/6th.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/6th.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Dental Implants</h3>
+            <p>Permanent, natural-looking solutions for missing teeth.</p>
+        </div>
+
+        <!-- 9. Dental Filling -->
+        <div class="card">
+            <div class="video-wrapper" onclick="openLightbox('video/filling.mp4')">
+                <video class="card-video" autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover; display: block;">
+                    <source src="video/filling.mp4" type="video/mp4">
+                </video>
+            </div>
+            <h3>Dental Filling</h3>
+            <p>Tooth-colored composite fillings to repair cavities and restore tooth strength.</p>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX MODAL STRUCTURE -->
+<div class="video-lightbox" id="videoLightbox">
+    <div class="lightbox-content">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <video id="lightboxVideo" controls autoplay>
+            <source id="lightboxSource" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<!-- FLOATING CHAT WIDGET -->
+<div class="chat-widget-btn" id="chatToggleBtn" title="Chat with us"><i class="fa-solid fa-comments"></i></div>
+<div class="chat-box-container" id="chatBox" style="display: none;">
+    <div class="chat-header">
+        <div class="chat-header-info"><h4>Belleville Dental Support</h4><p>Typically replies instantly</p></div>
+        <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+            👋 <strong>Welcome to Belleville Dental Clinic!</strong><br>
+            How can we help you with your smile today? Choose an option below or type your question. 😊
+        </div>
+    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies">
+        <button type="button" class="chat-quick-btn" data-topic="appointment">Appointment</button>
+        <button type="button" class="chat-quick-btn" data-topic="services">Services</button>
+        <button type="button" class="chat-quick-btn" data-topic="timing">Clinic Timing</button>
+        <button type="button" class="chat-quick-btn" data-topic="doctors">Doctors Info</button>
+        <button type="button" class="chat-quick-btn" data-topic="contact">WhatsApp / Contact</button>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+        <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<!-- APPOINTMENT BANNER (Centered) -->
+<section class="appointment-banner" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px;">
+    <h2>Need A Dental Consultation?</h2>
+    <p style="margin-bottom: 20px;">Schedule your visit with our specialists today.</p>
+    <a href="appoinment.html" class="btn btn-light" style="display: inline-block;">Book Appointment</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <!-- Column 1: Logo + Description + Social Icons -->
+        <div>
+            <div class="footer-brand-wrap">
+                <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo">
+                <div>
+                    <h2>BELLEVILLE</h2>
+                    <p>Dental Clinic</p>
+                </div>
+            </div>
+            <p class="footer-desc">Providing gentle, modern, and trusted dental care for healthy smiles and happier lives.</p>
+            <div class="footer-social-links">
+                <a href="https://instagram.com/belleville_dental" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/923001234567" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <!-- Column 2: Quick Links -->
+        <div>
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="FAQ.html">FAQs</a>
+        </div>
+
+        <!-- Column 3: Explore -->
+        <div>
+            <h3>Explore</h3>
+            <a href="products.html">Products</a>
+            <a href="kidsgaming.html">Kids Zone</a>
+            <a href="index.html#reviews-section">Reviews</a>
+            <a href="sitemap.html">Sitemap</a>
+            <a href="contact.html">Contact</a>
+        </div>
+
+        <!-- Column 4: Opening Hours -->
+        <div>
+            <h3>Opening Hours</h3>
+            <ul class="footer-hours-list">
+                <li><span>Mon - Fri</span><span>10:00 AM - 9:00 PM</span></li>
+                <li><span>Saturday</span><span>11:00 AM - 7:00 PM</span></li>
+                <li><span>Sunday</span><span>Closed</span></li>
+            </ul>
+        </div>
+
+        <!-- Column 5: Contact -->
+        <div>
+            <h3>Contact</h3>
+            <p class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Karachi, Pakistan</p>
+            <p class="footer-contact-item"><i class="fa-solid fa-phone"></i> +92 300 0000000</p>
+            <a href="https://instagram.com/belleville_dental" target="_blank" class="footer-contact-item"><i class="fa-brands fa-instagram"></i> @belleville_dental</a>
+            <a href="https://wa.me/923001234567" target="_blank" class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</a>
+        </div>
+    </div>
+    <div class="copyright">© 2026 Belleville Dental Clinic. All Rights Reserved.</div>
+</footer>
+
+<!-- TICKER (Same as Home Page) -->
+<div class="ticker"><marquee id="ticker" scrollamount="6"><span id="liveTickerText">Welcome to Belleville Dental Clinic</span></marquee></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="script.js"></script>
+
+<!-- Lightbox Script -->
+<script>
+    function openLightbox(videoSrc) {
+        const lightbox = document.getElementById('videoLightbox');
+        const videoElement = document.getElementById('lightboxVideo');
+        const sourceElement = document.getElementById('lightboxSource');
+        
+        sourceElement.src = videoSrc;
+        videoElement.load();
+        lightbox.style.display = 'flex';
+        videoElement.play();
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('videoLightbox');
+        const videoElement = document.getElementById('lightboxVideo');
+        
+        videoElement.pause();
+        lightbox.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const lightbox = document.getElementById('videoLightbox');
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    }
+</script>
+</body>
+</html>
