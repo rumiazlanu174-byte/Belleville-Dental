@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dental Products | Belleville Dental Clinic</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    html { scroll-behavior: smooth; }
+    .visitor {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 6px 14px;
+        border-radius: 50px; font-size: 13px; font-weight: 600; white-space: nowrap;
+    }
+    .visitor i { font-size: 14px; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropbtn { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .dropdown-content {
+        display: none; position: absolute; top: 100%; left: 0; background-color: #ffffff;
+        min-width: 175px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); border-radius: 10px;
+        z-index: 1000; overflow: hidden; border: 1px solid #e2e8f0; padding: 6px 0;
+    }
+    .dropdown-content a {
+        color: #1e293b !important; padding: 10px 16px !important; text-decoration: none;
+        display: block !important; font-size: 14px; transition: background 0.2s, color 0.2s; margin: 0 !important;
+    }
+    .dropdown-content a:hover { background-color: #e8f4f0; color: #0d4a38 !important; }
+    .dropdown:hover .dropdown-content { display: block; }
+    .store-section { padding: 50px 8% 80px; background: #f8fafc; }
+    .store-toolbar {
+        display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+        gap: 15px; margin-bottom: 35px; background: #ffffff; padding: 18px 22px;
+        border-radius: 16px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0;
+    }
+    .filter-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-btn {
+        background: #e8f4f0; color: #0d4a38; border: 1px solid #cce3dc; padding: 8px 16px;
+        border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 600;
+        cursor: pointer; transition: all 0.25s ease;
+    }
+    .filter-btn.active, .filter-btn:hover { background: #0d4a38; color: #ffffff; border-color: #0d4a38; }
+    .search-box { position: relative; min-width: 250px; flex: 1; max-width: 320px; }
+    .search-box input {
+        width: 100%; padding: 11px 14px 11px 38px; border: 1px solid #cbd5e1;
+        border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: 14px; outline: none; box-sizing: border-box;
+    }
+    .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 26px; }
+    .product-card {
+        background: #ffffff; border-radius: 18px; overflow: hidden; border: 1px solid #e2e8f0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; transition: transform 0.3s ease; position: relative;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(13, 74, 56, 0.14); }
+    .product-badge { position: absolute; top: 14px; left: 14px; background: #0d4a38; color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 50px; z-index: 2; }
+    .product-img-wrap { width: 100%; height: 210px; background: #f1f5f9; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+    .product-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+    .product-category { font-size: 12px; color: #2b7a62; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .product-title { font-size: 17px; font-weight: 700; color: #0f172a; margin: 5px 0 6px; }
+    .product-rating { color: #f59e0b; font-size: 15px; margin-bottom: 12px; }
+    .product-rating span { color: #64748b; font-size: 12px; margin-left: 4px; }
+    .product-desc { font-size: 13.5px; color: #475569; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+    .product-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+    .product-price { font-size: 20px; font-weight: 800; color: #0d4a38; }
+    .product-old-price { font-size: 13.5px; color: #94a3b8; text-decoration: line-through; }
+    .product-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-cart, .btn-buy {
+        padding: 10px 12px; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600;
+        cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.25s;
+    }
+    .btn-cart { background: #e8f4f0; color: #0d4a38; border: 1.5px solid #0d4a38; }
+    .btn-cart:hover { background: #0d4a38; color: #ffffff; }
+    .btn-buy { background: #0d4a38; color: #ffffff; border: 1.5px solid #0d4a38; }
+    .btn-buy:hover { background: #2b7a62; border-color: #2b7a62; }
+    .cart-nav-btn {
+        position: relative; background: #34d399; color: #083325; border: none; padding: 8px 15px;
+        border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+    }
+    .cart-badge { background: #0d4a38; color: #ffffff; font-size: 11px; padding: 2px 7px; border-radius: 50px; }
+    .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.55); z-index: 2000; }
+    .cart-drawer {
+        position: fixed; top: 0; right: -420px; width: 100%; max-width: 400px; height: 100vh;
+        background: #ffffff; z-index: 2001; box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        display: flex; flex-direction: column; transition: right 0.35s ease;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-drawer-header { background: #0d4a38; color: #ffffff; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .close-cart { background: none; border: none; color: #ffffff; font-size: 26px; cursor: pointer; }
+    .cart-items-list { flex: 1; overflow-y: auto; padding: 18px; }
+    .empty-cart-msg { text-align: center; color: #64748b; margin-top: 60px; }
+    .cart-item { display: flex; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #e2e8f0; }
+    .cart-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; background: #f1f5f9; }
+    .cart-item-details { flex: 1; }
+    .cart-item-details h4 { margin: 0 0 4px; font-size: 14px; color: #0f172a; }
+    .cart-item-details p { margin: 0; font-size: 13px; font-weight: 700; color: #0d4a38; }
+    .qty-controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    .qty-btn { width: 24px; height: 24px; border-radius: 6px; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; font-weight: 700; }
+    .remove-item-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 15px; }
+    .cart-drawer-footer { padding: 18px 20px; border-top: 1px solid #e2e8f0; background: #f8fafc; }
+    .cart-total-row { display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 14px; }
+    .checkout-btn {
+        width: 100%; background: #0d4a38; color: #ffffff; border: none; padding: 13px;
+        border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;
+    }
+    .checkout-btn:hover { background: #2b7a62; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65); z-index: 3000; align-items: center; justify-content: center; padding: 16px; }
+    .modal-backdrop.active { display: flex; }
+    .checkout-modal { background: #ffffff; width: 100%; max-width: 480px; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25); }
+    .modal-header { background: #0d4a38; color: #ffffff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 22px; max-height: 80vh; overflow-y: auto; }
+    .order-summary-box { background: #e8f4f0; border: 1px solid #cce3dc; padding: 12px 15px; border-radius: 12px; margin-bottom: 16px; font-size: 13.5px; color: #083325; }
+    .form-group { margin-bottom: 13px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 14px; box-sizing: border-box;
+    }
+    .toast-msg {
+        position: fixed; bottom: 55px; left: 50%; transform: translateX(-50%) translateY(100px);
+        background: #083325; color: #ffffff; padding: 12px 24px; border-radius: 50px; font-size: 14px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 4000; transition: transform 0.3s ease; border: 1px solid #34d399;
+    }
+    .toast-msg.show { transform: translateX(-50%) translateY(0); }
+
+    /* Enhanced Balanced Footer CSS with Logo Animation */
+    .footer-grid {
+        display: grid !important;
+        grid-template-columns: 1.5fr 0.9fr 0.9fr 1.15fr 1.25fr !important;
+        gap: 28px !important;
+        align-items: start;
+    }
+    @media (max-width: 1024px) {
+        .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 600px) {
+        .footer-grid { grid-template-columns: 1fr !important; }
+    }
+    .footer-brand-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .footer-brand-wrap img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        animation: footerLogoFloat 3s ease-in-out infinite;
+        transition: transform 0.4s ease, filter 0.4s ease;
+        cursor: pointer;
+    }
+    .footer-brand-wrap img:hover {
+        animation-play-state: paused;
+        transform: scale(1.2) rotate(8deg);
+        filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+    }
+    @keyframes footerLogoFloat {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% {
+            transform: translateY(-6px) scale(1.06);
+            filter: drop-shadow(0 5px 8px rgba(52, 211, 153, 0.4));
+        }
+    }
+    .footer-brand-wrap h2 { margin: 0; letter-spacing: 1px; color: #ffffff; }
+    .footer-brand-wrap p { margin: 0; font-size: 12px; color: #a7d7c5; letter-spacing: 2px; text-transform: uppercase; }
+    
+    .footer-desc {
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: #b4c9be;
+        margin-bottom: 16px;
+    }
+
+    .footer-social-links { display: flex; gap: 10px; }
+    .footer-social-links a {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .footer-social-links a:hover { background: #34d399; color: #083325; transform: translateY(-3px); }
+
+    .footer-hours-list { list-style: none; padding: 0; margin: 0; }
+    .footer-hours-list li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #b4c9be;
+        padding: 6px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+    .footer-hours-list li:last-child { border-bottom: none; }
+    .footer-hours-list li span:last-child { color: #a7d7c5; font-weight: 500; }
+
+    .footer-contact-item {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px !important;
+        color: #b4c9be;
+        font-size: 13.5px;
+        text-decoration: none;
+    }
+    .footer-contact-item i {
+        font-size: 15px;
+        color: #34d399;
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    a.footer-contact-item:hover { color: #34d399; }
+    .copyright {
+        text-align: center; padding: 20px 10px 0 10px; margin-top: 35px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; color: #8fa89b;
+    }
+
+    /* Floating Chat Button & Chatbox Styling */
+    .chat-widget-btn {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #0d4a38;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+        z-index: 9998;
+        transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .chat-widget-btn:hover {
+        transform: scale(1.06);
+        background: #176950;
+    }
+
+    .chat-box-container {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 350px;
+        max-width: calc(100vw - 24px);
+        max-height: 75vh;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 9999;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #0d4a38, #2b7a62);
+        color: #ffffff;
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .chat-header-info h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .chat-header-info p {
+        margin: 2px 0 0;
+        font-size: 11.5px;
+        opacity: 0.9;
+    }
+    .chat-close-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0 4px;
+    }
+
+    .chat-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        background: #f8fafc;
+    }
+    .chat-message {
+        padding: 10px 13px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.45;
+        max-width: 86%;
+        word-wrap: break-word;
+    }
+    .chat-message.bot {
+        background: #ffffff;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        align-self: flex-start;
+    }
+    .chat-message.user {
+        background: #0d4a38;
+        color: #ffffff;
+        align-self: flex-end;
+    }
+    .chat-message.bot a {
+        color: #0d4a38;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    /* Chatbox Quick Replies & Link Styling */
+    .chat-quick-replies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px 12px;
+        background: #f1f5f9;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-quick-btn {
+        background: #ffffff;
+        color: #0d4a38;
+        border: 1px solid #0d4a38;
+        border-radius: 16px;
+        padding: 4px 10px;
+        font-size: 11.5px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .chat-quick-btn:hover {
+        background: #0d4a38;
+        color: #ffffff;
+    }
+
+    .chat-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-input {
+        flex: 1;
+        padding: 9px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        outline: none;
+    }
+    .chat-input:focus {
+        border-color: #0d4a38;
+    }
+    .chat-send-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: #0d4a38;
+        color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s ease;
+    }
+    .chat-send-btn:hover {
+        background: #176950;
+    }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <a href="index.html" class="logo">
+        <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo" class="logo-img">
+        <span>BELLEVILLE<small>DENTAL CLINIC</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="doctors.html">Doctors</a>
+        <a href="services.html">Services</a>
+        <a href="research.html">Research</a>
+        <a class="active" href="products.html">Products</a>
+        <a href="kidsgaming.html">Kids Zone</a>
+        <a href="gellery.html">Gallery</a>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">More <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="FAQ.html"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+                <a href="index.html#reviews-section"><i class="fa-solid fa-star"></i> Patient Reviews</a>
+                <a href="sitemap.html"><i class="fa-solid fa-sitemap"></i> Sitemap</a>
+            </div>
+        </div>
+        <a href="contact.html">Contact</a>
+        <a class="nav-appointment" href="appoinment.html">Book Appointment</a>
+    </nav>
+    <div style="display:flex; align-items:center; gap:10px;">
+        <button class="cart-nav-btn" id="openCartBtn" title="View Cart"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cartCount">0</span></button>
+        <div class="visitor" title="Total Visitors"><i class="fa-solid fa-eye"></i> <span id="visitorCount">0</span></div>
+    </div>
+</header>
+
+<section class="page-banner about-banner" style="min-height:380px; background:linear-gradient(180deg, rgba(8, 51, 37, 0.88) 0%, rgba(8, 51, 37, 0.68) 50%, rgba(8, 51, 37, 0.88) 100%), url('photo/bg.png') center 35% / cover no-repeat fixed, #0d4a38 !important; border-bottom: 5px solid #34d399; text-align:center; color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+    <h1 style="font-size:clamp(36px, 6vw, 56px); margin:0 0 10px; text-shadow:0 6px 24px rgba(0,0,0,0.6);">Dental Care Store</h1>
+    <p style="font-size:18px; color:#d5ebe4; margin:0; text-shadow:0 3px 12px rgba(0,0,0,0.6);">Dentist-recommended oral hygiene products for healthy smiles</p>
+</section>
+
+<section class="store-section">
+    <div class="store-toolbar">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Products</button>
+            <button class="filter-btn" data-filter="brushes">Toothbrushes</button>
+            <button class="filter-btn" data-filter="toothpaste">Toothpaste &amp; Gel</button>
+            <button class="filter-btn" data-filter="whitening">Whitening &amp; Care</button>
+            <button class="filter-btn" data-filter="kids">Kids Care</button>
+        </div>
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="productSearch" placeholder="Search dental products...">
+        </div>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header"><h3><i class="fa-solid fa-bag-shopping"></i> Your Shopping Cart</h3><button class="close-cart" id="closeCartBtn">&times;</button></div>
+    <div class="cart-items-list" id="cartItemsList"></div>
+    <div class="cart-drawer-footer">
+        <div class="cart-total-row"><span>Total Amount:</span><span id="cartTotal">Rs. 0</span></div>
+        <button class="checkout-btn" id="proceedCheckoutBtn">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<div class="modal-backdrop" id="checkoutModal">
+    <div class="checkout-modal">
+        <div class="modal-header"><h3><i class="fa-solid fa-credit-card"></i> Complete Your Order</h3><button class="close-cart" id="closeModalBtn">&times;</button></div>
+        <div class="modal-body">
+            <div class="order-summary-box" id="modalOrderSummary"></div>
+            <form id="orderForm">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="custName" placeholder="Enter your full name" required></div>
+                <div class="form-group"><label>Phone Number *</label><input type="tel" id="custPhone" placeholder="03XX-XXXXXXX" required></div>
+                <div class="form-group"><label>Delivery Address *</label><textarea id="custAddress" rows="2" placeholder="House #, Street, Area, City" required></textarea></div>
+                <div class="form-group">
+                    <label>Payment Method *</label>
+                    <select id="paymentMethod" required>
+                        <option value="Cash on Delivery (COD)">Cash on Delivery (COD)</option>
+                        <option value="JazzCash / EasyPaisa">JazzCash / EasyPaisa</option>
+                        <option value="Credit / Debit Card">Credit / Debit Card</option>
+                    </select>
+                </div>
+                <button type="submit" class="checkout-btn"><i class="fa-solid fa-circle-check"></i> Confirm &amp; Place Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="toast-msg" id="toastMsg">Item added to cart!</div>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand-wrap">
+                <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo">
+                <div>
+                    <h2>BELLEVILLE</h2>
+                    <p>Dental Clinic</p>
+                </div>
+            </div>
+            <p class="footer-desc">Providing gentle, modern, and trusted dental care for healthy smiles and happier lives.</p>
+            <div class="footer-social-links">
+                <a href="https://instagram.com/belleville_dental" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/923001234567" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div>
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="FAQ.html">FAQs</a>
+        </div>
+        <div>
+            <h3>Explore</h3>
+            <a href="products.html">Products</a>
+            <a href="kidsgaming.html">Kids Zone</a>
+            <a href="index.html#reviews-section">Reviews</a>
+            <a href="sitemap.html">Sitemap</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div>
+            <h3>Opening Hours</h3>
+            <ul class="footer-hours-list">
+                <li><span>Mon - Fri</span><span>10:00 AM - 9:00 PM</span></li>
+                <li><span>Saturday</span><span>11:00 AM - 7:00 PM</span></li>
+                <li><span>Sunday</span><span>Closed</span></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Karachi, Pakistan</p>
+            <p class="footer-contact-item"><i class="fa-solid fa-phone"></i> +92 300 0000000</p>
+            <a href="https://instagram.com/belleville_dental" target="_blank" class="footer-contact-item"><i class="fa-brands fa-instagram"></i> @belleville_dental</a>
+            <a href="https://wa.me/923001234567" target="_blank" class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</a>
+        </div>
+    </div>
+    <div class="copyright">© 2026 Belleville Dental Clinic. All Rights Reserved.</div>
+</footer>
+
+<div class="ticker"><marquee id="ticker" scrollamount="6"><span id="liveTickerText">Welcome to Belleville Dental Clinic</span></marquee></div>
+
+<div class="chat-widget-btn" id="chatToggleBtn" title="Chat with us"><i class="fa-solid fa-comments"></i></div>
+<div class="chat-box-container" id="chatBox" style="display: none;">
+    <div class="chat-header">
+        <div class="chat-header-info"><h4>Belleville Dental Support</h4><p>Typically replies instantly</p></div>
+        <button class="chat-close-btn" id="chatCloseBtn">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+            👋 <strong>Welcome to Belleville Dental Clinic!</strong><br>
+            How can we help you with your smile today? Choose an option below or type your question. 😊
+        </div>
+    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies">
+        <button type="button" class="chat-quick-btn" data-topic="appointment">Appointment</button>
+        <button type="button" class="chat-quick-btn" data-topic="services">Services</button>
+        <button type="button" class="chat-quick-btn" data-topic="timing">Clinic Timing</button>
+        <button type="button" class="chat-quick-btn" data-topic="doctors">Doctors Info</button>
+        <button type="button" class="chat-quick-btn" data-topic="contact">WhatsApp / Contact</button>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+        <button id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="script.js"></script>
+<script>
+    const productsData = [
+        { id: 1, name: "AquaSonic Vibe Series Electric Toothbrush", category: "brushes", categoryLabel: "Toothbrushes", badge: "Best Seller", price: 4800, oldPrice: 6000, rating: "4.9 (142)", desc: "40,000 VPM motor with 8 brush heads, 4 smart modes, and wireless charging.", img: "photo/product.jfif" },
+        { id: 2, name: "Auraglow LED Whitening Kit", category: "whitening", categoryLabel: "Whitening & Care", badge: "Top Rated", price: 3500, oldPrice: 4500, rating: "4.9 (98)", desc: "Professional-level at-home whitening with 44% carbamide peroxide gel and LED light.", img: "photo/Teeth Whitening.jfif" },
+        { id: 3, name: "Dr. Clean Kids 3-Sided Toothbrush", category: "kids", categoryLabel: "Kids Care", badge: "Kids Choice", price: 650, oldPrice: 900, rating: "4.8 (115)", desc: "3-sided brush head that cleans from all sides simultaneously with soft bristles for children 2+.", img: "photo/product2.jfif" },
+        { id: 4, name: "Sensitive Shield Fluoride Toothpaste", category: "toothpaste", categoryLabel: "Toothpaste & Gel", badge: "Dentist Choice", price: 650, oldPrice: 800, rating: "4.8 (94)", desc: "Clinically proven relief for tooth sensitivity while strengthening weak enamel daily.", img: "photo/paste" },
+        { id: 5, name: "Cute Kids Cartoon Silicone Toothbrush", category: "kids", categoryLabel: "Kids Care", badge: "Cute Design", price: 550, oldPrice: 750, rating: "4.9 (88)", desc: "Adorable animal cartoon design with soft and gentle BPA-free bristles for little hands.", img: "photo/brushkids.jfif" },
+        { id: 6, name: "Kids U-Shaped Electric Toothbrush", category: "kids", categoryLabel: "Kids Care", badge: "Trending", price: 2200, oldPrice: 3000, rating: "4.7 (74)", desc: "360° automatic cleaning with sonic vibration and IPX7 waterproof cute dinosaur design.", img: "photo/ubrush.jfif" }
+    ];
+    let cart = JSON.parse(localStorage.getItem("belleville_cart")) || [];
+    let activeCheckoutItems = [];
+
+    function renderProducts(filter = "all", searchQuery = "") {
+        const grid = document.getElementById("productsGrid");
+        grid.innerHTML = "";
+        const filtered = productsData.filter(item => {
+            const matchesCategory = filter === "all" || item.category === filter;
+            const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
+        });
+        if (filtered.length === 0) { grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#64748b; padding:40px;">No products found.</p>`; return; }
+        filtered.forEach(p => {
+            grid.innerHTML += `
+                <div class="product-card">
+                    <span class="product-badge">${p.badge}</span>
+                    <div class="product-img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+                    <div class="product-info">
+                        <span class="product-category">${p.categoryLabel}</span>
+                        <h3 class="product-title">${p.name}</h3>
+                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><span>${p.rating}</span></div>
+                        <p class="product-desc">${p.desc}</p>
+                        <div class="product-price-row"><span class="product-price">Rs. ${p.price.toLocaleString()}</span><span class="product-old-price">Rs. ${p.oldPrice.toLocaleString()}</span></div>
+                        <div class="product-actions">
+                            <button class="btn-cart" onclick="addToCart(${p.id})"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+                            <button class="btn-buy" onclick="buyNow(${p.id})"><i class="fa-solid fa-bolt"></i> Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    function showToast(msg) { const toast = document.getElementById("toastMsg"); toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2200); }
+    function saveAndRenderCart() { localStorage.setItem("belleville_cart", JSON.stringify(cart)); updateCartUI(); }
+    function addToCart(productId) {
+        const product = productsData.find(p => p.id === productId);
+        const existing = cart.find(c => c.id === productId);
+        if (existing) { existing.qty += 1; } else { cart.push({ ...product, qty: 1 }); }
+        saveAndRenderCart();
+        showToast(`✓ "${product.name}" added to cart!`);
+    }
+    function changeQty(productId, delta) {
+        const item = cart.find(c => c.id === productId);
+        if (!item) return;
+        item.qty += delta;
+        if (item.qty <= 0) { cart = cart.filter(c => c.id !== productId); }
+        saveAndRenderCart();
+    }
+    function removeFromCart(productId) { cart = cart.filter(c => c.id !== productId); saveAndRenderCart(); }
+    function updateCartUI() {
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        document.getElementById("cartCount").textContent = totalQty;
+        document.getElementById("cartTotal").textContent = "Rs. " + totalPrice.toLocaleString();
+        const listEl = document.getElementById("cartItemsList");
+        if (cart.length === 0) { listEl.innerHTML = `<div class="empty-cart-msg"><i class="fa-solid fa-cart-arrow-down" style="font-size:40px; color:#cbd5e1; margin-bottom:8px;"></i><p>Your cart is empty.</p></div>`; return; }
+        listEl.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <img src="${item.img}" alt="${item.name}">
+                <div class="cart-item-details"><h4>${item.name}</h4><p>Rs. ${(item.price * item.qty).toLocaleString()}</p>
+                    <div class="qty-controls"><button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button><span>${item.qty}</span><button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button></div>
+                </div>
+                <button class="remove-item-btn" onclick="removeFromCart(${item.id})"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        `).join("");
+    }
+    function buyNow(productId) { const product = productsData.find(p => p.id === productId); activeCheckoutItems = [{ ...product, qty: 1 }]; openCheckoutModal(false); }
+    function openCheckoutModal(fromCart = true) {
+        if (fromCart) { if (cart.length === 0) { showToast("Your cart is empty!"); return; } activeCheckoutItems = [...cart]; cartDrawer.classList.remove("open"); cartOverlay.style.display = "none"; }
+        const total = activeCheckoutItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+        const itemsHtml = activeCheckoutItems.map(i => `<div>• ${i.name} (x${i.qty}) — <b>Rs. ${(i.price * i.qty).toLocaleString()}</b></div>`).join("");
+        document.getElementById("modalOrderSummary").innerHTML = `<b>Order Summary:</b><br>${itemsHtml}<hr style="border:none;border-top:1px solid #b7d8ce;margin:6px 0;"><b>Total: Rs. ${total.toLocaleString()}</b>`;
+        document.getElementById("checkoutModal").classList.add("active");
+        document.getElementById("checkoutModal").dataset.fromCart = fromCart ? "true" : "false";
+    }
+    const cartDrawer = document.getElementById("cartDrawer");
+    const cartOverlay = document.getElementById("cartOverlay");
+    document.getElementById("openCartBtn").addEventListener("click", () => { cartDrawer.classList.add("open"); cartOverlay.style.display = "block"; });
+    document.getElementById("closeCartBtn").addEventListener("click", () => { cartDrawer.classList.remove("open"); cartOverlay.style.display = "none"; });
+    cartOverlay.addEventListener("click", () => { cartDrawer.classList.remove("open"); cartOverlay.style.display = "none"; });
+    document.getElementById("proceedCheckoutBtn").addEventListener("click", () => openCheckoutModal(true));
+    document.getElementById("closeModalBtn").addEventListener("click", () => document.getElementById("checkoutModal").classList.remove("active"));
+    document.getElementById("orderForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const name = document.getElementById("custName").value;
+        const pay = document.getElementById("paymentMethod").value;
+        if (document.getElementById("checkoutModal").dataset.fromCart === "true") { cart = []; saveAndRenderCart(); }
+        document.getElementById("checkoutModal").classList.remove("active");
+        this.reset();
+        alert(`Thank you, ${name}!\nYour order has been placed successfully via ${pay}. Our team will contact you soon.`);
+    });
+    let currentFilter = "all";
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            currentFilter = this.dataset.filter;
+            renderProducts(currentFilter, document.getElementById("productSearch").value);
+        });
+    });
+    document.getElementById("productSearch").addEventListener("input", function () { renderProducts(currentFilter, this.value); });
+    document.addEventListener("DOMContentLoaded", function () {
+        renderProducts();
+        updateCartUI();
+    });
+</script>
+</body>
+</html>
