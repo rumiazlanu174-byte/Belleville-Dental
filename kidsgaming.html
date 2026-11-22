@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kids Zone | Belleville Dental Clinic</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    html { scroll-behavior: smooth; }
+
+    /* ===== Visitor Counter ===== */
+    .visitor {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .visitor i { font-size: 14px; }
+
+    /* ===== Navbar Dropdown (More) ===== */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropbtn {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ffffff;
+        min-width: 175px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
+        z-index: 1000;
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+        padding: 6px 0;
+    }
+    .dropdown-content a {
+        color: #1e293b !important;
+        padding: 10px 16px !important;
+        text-decoration: none;
+        display: block !important;
+        font-size: 14px;
+        transition: background 0.2s, color 0.2s;
+        margin: 0 !important;
+    }
+    .dropdown-content a:hover {
+        background-color: #e8f4f0;
+        color: #0d4a38 !important;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* ===== Banner Background Picture ===== */
+    .page-banner.kids-banner {
+        min-height: 400px;
+        border-bottom: 5px solid #34d399;
+        background:
+            linear-gradient(180deg,
+                rgba(8, 51, 37, 0.88) 0%,
+                rgba(8, 51, 37, 0.68) 50%,
+                rgba(8, 51, 37, 0.88) 100%),
+            url('photo/bg.png') center 35% / cover no-repeat fixed,
+            #0d4a38 !important;
+    }
+    .page-banner.kids-banner h1 {
+        font-size: clamp(36px, 6vw, 60px) !important;
+        letter-spacing: 1px;
+        text-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+    }
+    .page-banner.kids-banner p {
+        font-size: 18px !important;
+        color: #d5ebe4;
+        text-shadow: 0 3px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    /* ===== Kids Zone Game Selector Cards with Animated Front Pictures ===== */
+    .kids-zone-section {
+        padding: 60px 8% 80px;
+        background: #f8fafc;
+    }
+    .games-selector-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 35px auto 0;
+    }
+    .game-pic-card {
+        background: #ffffff;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 3px solid #d5ebe4;
+        box-shadow: 0 12px 30px rgba(13, 74, 56, 0.1);
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        position: relative;
+        text-align: center;
+    }
+    .game-pic-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        border-color: #34d399;
+        box-shadow: 0 22px 45px rgba(13, 74, 56, 0.2);
+    }
+    .game-pic-wrapper {
+        position: relative;
+        height: 260px;
+        overflow: hidden;
+    }
+    .game-pic-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        animation: subtlePulse 4s infinite alternate;
+    }
+    @keyframes subtlePulse {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.05); }
+    }
+    .game-pic-card:hover .game-pic-wrapper img {
+        transform: scale(1.12) rotate(1deg);
+        animation: none;
+    }
+    .play-overlay-badge {
+        position: absolute;
+        inset: 0;
+        background: rgba(8, 51, 37, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .game-pic-card:hover .play-overlay-badge {
+        opacity: 1;
+    }
+    .play-circle-btn {
+        background: #34d399;
+        color: #083325;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        transform: translateY(20px);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .game-pic-card:hover .play-circle-btn {
+        transform: translateY(0);
+    }
+    .game-card-body {
+        padding: 24px;
+    }
+    .game-tag {
+        display: inline-block;
+        background: #e8f4f0;
+        color: #0d4a38;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 14px;
+        border-radius: 50px;
+        margin-bottom: 10px;
+    }
+    .game-card-body h3 {
+        color: #0d4a38;
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+    .game-card-body p {
+        color: #475569;
+        font-size: 14.5px;
+        margin-bottom: 16px;
+    }
+
+    /* ===== Game Modal / Stage ===== */
+    .game-modal-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 51, 37, 0.85);
+        z-index: 3500;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        backdrop-filter: blur(4px);
+    }
+    .game-modal-backdrop.active {
+        display: flex;
+    }
+    .game-modal-box {
+        background: #ffffff;
+        width: 100%;
+        max-width: 720px;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        border: 3px solid #34d399;
+        animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .game-modal-header {
+        background: #0d4a38;
+        color: #ffffff;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .game-modal-header h3 {
+        margin: 0;
+        font-size: 19px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .close-game-btn {
+        background: rgba(255,255,255,0.15);
+        border: none;
+        color: #ffffff;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .close-game-btn:hover { background: #ef4444; }
+    .game-modal-content {
+        padding: 22px;
+        max-height: 82vh;
+        overflow-y: auto;
+    }
+
+    /* ===== Game 1: Healthy vs Unhealthy Food Catcher ===== */
+    .catcher-hud {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #e8f4f0;
+        padding: 10px 18px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        font-weight: 700;
+        color: #0d4a38;
+        font-size: 15px;
+    }
+    .learning-tip-banner {
+        background: #fef3c7;
+        border: 1.5px solid #f59e0b;
+        color: #92400e;
+        padding: 10px 15px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 12px;
+        min-height: 22px;
+    }
+    #foodCanvas {
+        display: block;
+        width: 100%;
+        max-width: 660px;
+        height: 380px;
+        margin: 0 auto;
+        background: linear-gradient(180deg, #e0f2fe 0%, #f0fdf4 100%);
+        border-radius: 16px;
+        border: 2px solid #cbd5e1;
+        cursor: ew-resize;
+        touch-action: none;
+    }
+    .mobile-controls {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 12px;
+    }
+    .move-btn {
+        background: #0d4a38;
+        color: #fff;
+        border: none;
+        padding: 10px 26px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* ===== Game 2: Dental Quiz & Certificate ===== */
+    .quiz-progress {
+        font-size: 13px;
+        font-weight: 600;
+        color: #2b7a62;
+        margin-bottom: 8px;
+    }
+    .quiz-question-box {
+        background: #e8f4f0;
+        padding: 20px;
+        border-radius: 14px;
+        margin-bottom: 18px;
+        color: #083325;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .quiz-options {
+        display: grid;
+        gap: 10px;
+    }
+    .quiz-opt-btn {
+        background: #ffffff;
+        border: 2px solid #cbd5e1;
+        padding: 13px 18px;
+        border-radius: 12px;
+        text-align: left;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        color: #1e293b;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .quiz-opt-btn:hover {
+        border-color: #0d4a38;
+        background: #f0fdf4;
+    }
+    .quiz-opt-btn.correct {
+        background: #dcfce7;
+        border-color: #16a34a;
+        color: #14532d;
+        font-weight: 700;
+    }
+    .quiz-opt-btn.wrong {
+        background: #fee2e2;
+        border-color: #dc2626;
+        color: #7f1d1d;
+    }
+
+    /* Super Smile Champion Certificate */
+    .certificate-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+        border: 6px double #0d4a38;
+        border-radius: 18px;
+        padding: 28px 22px;
+        text-align: center;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(13, 74, 56, 0.15);
+    }
+    .cert-badge {
+        width: 65px;
+        height: 65px;
+        background: #f59e0b;
+        color: #ffffff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-bottom: 10px;
+        box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4);
+    }
+    .certificate-card h2 {
+        color: #0d4a38;
+        font-size: 26px;
+        margin: 4px 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .cert-kid-name {
+        font-size: 24px;
+        font-weight: 800;
+        color: #047857;
+        border-bottom: 2px dashed #34d399;
+        display: inline-block;
+        padding: 2px 24px;
+        margin: 10px 0;
+    }
+
+    /* Celebration Confetti Canvas */
+    #confettiCanvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5000;
+    }
+
+    /* ===== Enhanced Balanced Footer CSS with Logo Animation ===== */
+    .footer-grid {
+        display: grid !important;
+        grid-template-columns: 1.5fr 0.9fr 0.9fr 1.15fr 1.25fr !important;
+        gap: 28px !important;
+        align-items: start;
+    }
+    @media (max-width: 1024px) {
+        .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 600px) {
+        .footer-grid { grid-template-columns: 1fr !important; }
+    }
+    .footer-brand-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .footer-brand-wrap img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        animation: footerLogoFloat 3s ease-in-out infinite;
+        transition: transform 0.4s ease, filter 0.4s ease;
+        cursor: pointer;
+    }
+    .footer-brand-wrap img:hover {
+        animation-play-state: paused;
+        transform: scale(1.2) rotate(8deg);
+        filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+    }
+    @keyframes footerLogoFloat {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% {
+            transform: translateY(-6px) scale(1.06);
+            filter: drop-shadow(0 5px 8px rgba(52, 211, 153, 0.4));
+        }
+    }
+    .footer-brand-wrap h2 { margin: 0; letter-spacing: 1px; color: #ffffff; }
+    .footer-brand-wrap p { margin: 0; font-size: 12px; color: #a7d7c5; letter-spacing: 2px; text-transform: uppercase; }
+    
+    .footer-desc {
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: #b4c9be;
+        margin-bottom: 16px;
+    }
+
+    .footer-social-links { display: flex; gap: 10px; }
+    .footer-social-links a {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .footer-social-links a:hover { background: #34d399; color: #083325; transform: translateY(-3px); }
+
+    .footer-hours-list { list-style: none; padding: 0; margin: 0; }
+    .footer-hours-list li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #b4c9be;
+        padding: 6px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+    .footer-hours-list li:last-child { border-bottom: none; }
+    .footer-hours-list li span:last-child { color: #a7d7c5; font-weight: 500; }
+
+    .footer-contact-item {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px !important;
+        color: #b4c9be;
+        font-size: 13.5px;
+        text-decoration: none;
+    }
+    .footer-contact-item i {
+        font-size: 15px;
+        color: #34d399;
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    a.footer-contact-item:hover { color: #34d399; }
+    .copyright {
+        text-align: center; padding: 20px 10px 0 10px; margin-top: 35px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; color: #8fa89b;
+    }
+
+    /* Floating Chat Button & Chatbox Styling */
+    .chat-widget-btn {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #0d4a38;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+        z-index: 9998;
+        transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .chat-widget-btn:hover {
+        transform: scale(1.06);
+        background: #176950;
+    }
+
+    .chat-box-container {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 350px;
+        max-width: calc(100vw - 24px);
+        max-height: 75vh;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 9999;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #0d4a38, #2b7a62);
+        color: #ffffff;
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .chat-header-info h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .chat-header-info p {
+        margin: 2px 0 0;
+        font-size: 11.5px;
+        opacity: 0.9;
+    }
+    .chat-close-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0 4px;
+    }
+
+    .chat-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        background: #f8fafc;
+    }
+    .chat-message {
+        padding: 10px 13px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.45;
+        max-width: 86%;
+        word-wrap: break-word;
+    }
+    .chat-message.bot {
+        background: #ffffff;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        align-self: flex-start;
+    }
+    .chat-message.user {
+        background: #0d4a38;
+        color: #ffffff;
+        align-self: flex-end;
+    }
+    .chat-message.bot a {
+        color: #0d4a38;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    /* Chatbox Quick Replies & Link Styling */
+    .chat-quick-replies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px 12px;
+        background: #f1f5f9;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-quick-btn {
+        background: #ffffff;
+        color: #0d4a38;
+        border: 1px solid #0d4a38;
+        border-radius: 16px;
+        padding: 4px 10px;
+        font-size: 11.5px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .chat-quick-btn:hover {
+        background: #0d4a38;
+        color: #ffffff;
+    }
+
+    .chat-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-input {
+        flex: 1;
+        padding: 9px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        outline: none;
+    }
+    .chat-input:focus {
+        border-color: #0d4a38;
+    }
+    .chat-send-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: #0d4a38;
+        color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s ease;
+    }
+    .chat-send-btn:hover {
+        background: #176950;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- HEADER -->
+<header class="header">
+    <a href="index.html" class="logo">
+        <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo" class="logo-img">
+        <span>BELLEVILLE<small>DENTAL CLINIC</small></span>
+    </a>
+
+    <button class="menu-btn" id="menuBtn">☰</button>
+
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="doctors.html">Doctors</a>
+        <a href="services.html">Services</a>
+        <a href="research.html">Research</a>
+        <a href="products.html">Products</a>
+        <a class="active" href="kidsgaming.html">Kids Zone</a>
+        <a href="gellery.html">Gallery</a>
+
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">More <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="FAQ.html"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+                <a href="index.html#reviews-section"><i class="fa-solid fa-star"></i> Patient Reviews</a>
+                <a href="sitemap.html"><i class="fa-solid fa-sitemap"></i> Sitemap</a>
+            </div>
+        </div>
+
+        <a href="contact.html">Contact</a>
+        <a class="nav-appointment" href="appoinment.html">Book Appointment</a>
+    </nav>
+
+    <!-- Visitor Counter -->
+    <div class="visitor" title="Total Visitors">
+        <i class="fa-solid fa-eye"></i>
+        <span id="visitorCount">0</span>
+    </div>
+</header>
+
+<!-- PAGE BANNER -->
+<section class="page-banner kids-banner">
+    <h1>Kids Fun &amp; Learning Zone</h1>
+    <p>Click on any game picture below to play, learn &amp; win your Super Smile Champion Certificate!</p>
+</section>
+
+<!-- GAMES SELECTION SECTION -->
+<section class="kids-zone-section">
+    <div class="section-heading">
+        <span>PLAY &amp; LEARN</span>
+        <h2>Choose Your Dental Adventure</h2>
+        <p>Tap on a game card picture to start playing right away!</p>
+    </div>
+
+    <div class="games-selector-grid">
+        <!-- Game 1 Card -->
+        <div class="game-pic-card" id="openCatcherCard">
+            <div class="game-pic-wrapper">
+                <img src="photo/basket game.jpeg" alt="Healthy vs Unhealthy Food Game">
+                <div class="play-overlay-badge">
+                    <span class="play-circle-btn"><i class="fa-solid fa-play"></i> Play Food Game</span>
+                </div>
+            </div>
+            <div class="game-card-body">
+                <span class="game-tag">GAME 1 • CATCH &amp; LEARN</span>
+                <h3>Healthy vs. Unhealthy Food</h3>
+                <p>Catch healthy food items (Apple, Milk, Water) in your basket and avoid sweets &amp; cold drinks!</p>
+                <span class="btn">Click Picture to Play →</span>
+            </div>
+        </div>
+
+        <!-- Game 2 Card -->
+        <div class="game-pic-card" id="openQuizCard">
+            <div class="game-pic-wrapper">
+                <img src="photo/quiezee.jpeg" alt="Dental Quiz Challenge">
+                <div class="play-overlay-badge">
+                    <span class="play-circle-btn"><i class="fa-solid fa-trophy"></i> Start Dental Quiz</span>
+                </div>
+            </div>
+            <div class="game-card-body">
+                <span class="game-tag">GAME 2 • QUIZ &amp; CERTIFICATE</span>
+                <h3>Super Smile Dental Quiz</h3>
+                <p>Answer fun dental hygiene questions, test your knowledge, and win your <b>Super Smile Champion</b> certificate!</p>
+                <span class="btn">Click Picture to Play →</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GAME 1 MODAL -->
+<div class="game-modal-backdrop" id="catcherModal">
+    <div class="game-modal-box">
+        <div class="game-modal-header">
+            <h3><i class="fa-solid fa-apple-whole"></i> Healthy vs. Unhealthy Food Catcher</h3>
+            <button type="button" class="close-game-btn" id="closeCatcherBtn">&times;</button>
+        </div>
+        <div class="game-modal-content">
+            <div class="catcher-hud">
+                <span>Score: <b id="catcherScore">0</b> / 100</span>
+                <span>Lives: <b id="catcherLives">❤️❤️❤️</b></span>
+                <button type="button" id="restartCatcherBtn" style="background:#0d4a38;color:#fff;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:12px;">Restart</button>
+            </div>
+            <div class="learning-tip-banner" id="foodTipBanner">
+                🍎 Move your basket to catch healthy foods (Apple, Milk, Water)! Avoid junk food.
+            </div>
+            <canvas id="foodCanvas" width="660" height="380"></canvas>
+            <div class="mobile-controls">
+                <button type="button" class="move-btn" id="moveLeftBtn">⬅ Left</button>
+                <button type="button" class="move-btn" id="moveRightBtn">Right ➡</button>
+            </div>
+            <div id="catcherResultBox" style="display:none; text-align:center; margin-top:16px; padding:18px; background:#dcfce7; border-radius:14px; border:2px solid #16a34a;">
+                <h2 id="catcherResultTitle" style="color:#14532d; margin:0 0 6px;">🎉 Congratulations! You Won!</h2>
+                <p id="catcherResultMsg" style="color:#166534; margin-bottom:12px;">You successfully chose healthy foods and kept your teeth strong and bright!</p>
+                <button type="button" class="btn" id="playAgainCatcherBtn">Play Again</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GAME 2 MODAL -->
+<div class="game-modal-backdrop" id="quizModal">
+    <div class="game-modal-box">
+        <div class="game-modal-header">
+            <h3><i class="fa-solid fa-tooth"></i> Super Smile Dental Quiz</h3>
+            <button type="button" class="close-game-btn" id="closeQuizBtn">&times;</button>
+        </div>
+        <div class="game-modal-content">
+            <div id="quizStartScreen" style="text-align:center; padding:15px 0;">
+                <h2 style="color:#0d4a38; margin-bottom:8px;">Enter Your Name!</h2>
+                <p style="color:#475569; margin-bottom:18px;">Win the quiz to generate your official <b>Super Smile Champion</b> certificate!</p>
+                <input type="text" id="kidNameInput" placeholder="Enter your full name..." style="width:100%; max-width:340px; padding:12px 16px; border:2px solid #0d4a38; border-radius:50px; font-size:15px; text-align:center; outline:none; margin-bottom:16px;">
+                <br>
+                <button type="button" class="btn" id="startQuizBtn">Start Quiz 🚀</button>
+            </div>
+
+            <div id="quizPlayScreen" style="display:none;">
+                <div class="quiz-progress" id="quizProgress">Question 1 of 5</div>
+                <div class="quiz-question-box" id="quizQuestionText">How many times a day should you brush your teeth?</div>
+                <div class="quiz-options" id="quizOptionsBox"></div>
+                <p id="quizFeedback" style="margin-top:14px; font-weight:600; font-size:14px;"></p>
+            </div>
+
+            <div id="quizResultScreen" style="display:none;">
+                <div class="certificate-card" id="certificatePrintArea">
+                    <div class="cert-badge"><i class="fa-solid fa-award"></i></div>
+                    <p style="color:#2b7a62; font-weight:700; font-size:12px; letter-spacing:2px; margin:0;">BELLEVILLE DENTAL CLINIC</p>
+                    <h2>Super Smile Champion</h2>
+                    <p style="color:#475569; font-size:14px; margin:6px 0;">This certificate is proudly awarded to</p>
+                    <div class="cert-kid-name" id="certKidName">Little Champion</div>
+                    <p style="color:#1e293b; font-size:14px; margin:8px 0;">For scoring <b id="certFinalScore">5/5</b> in the Dental Hygiene Challenge and proving exceptional oral care knowledge!</p>
+                    <div style="display:flex; justify-content:space-between; margin-top:20px; padding-top:12px; border-top:1px solid #cbd5e1; font-size:12px; color:#64748b;">
+                        <span>Date: <b id="certDate"></b></span>
+                        <span>Signed: <b>Dr. Maria Siddiqui (Kids Specialist)</b></span>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:18px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+                    <button type="button" class="btn" id="printCertBtn"><i class="fa-solid fa-print"></i> Print Certificate</button>
+                    <button type="button" class="btn btn-outline" id="retryQuizBtn">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand-wrap">
+                <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo">
+                <div>
+                    <h2>BELLEVILLE</h2>
+                    <p>Dental Clinic</p>
+                </div>
+            </div>
+            <p class="footer-desc">Providing gentle, modern, and trusted dental care for healthy smiles and happier lives.</p>
+            <div class="footer-social-links">
+                <a href="https://instagram.com/belleville_dental" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/923001234567" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div>
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="FAQ.html">FAQs</a>
+        </div>
+        <div>
+            <h3>Explore</h3>
+            <a href="products.html">Products</a>
+            <a href="kidsgaming.html">Kids Zone</a>
+            <a href="index.html#reviews-section">Reviews</a>
+            <a href="sitemap.html">Sitemap</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div>
+            <h3>Opening Hours</h3>
+            <ul class="footer-hours-list">
+                <li><span>Mon - Fri</span><span>10:00 AM - 9:00 PM</span></li>
+                <li><span>Saturday</span><span>11:00 AM - 7:00 PM</span></li>
+                <li><span>Sunday</span><span>Closed</span></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Karachi, Pakistan</p>
+            <p class="footer-contact-item"><i class="fa-solid fa-phone"></i> +92 300 0000000</p>
+            <a href="https://instagram.com/belleville_dental" target="_blank" class="footer-contact-item"><i class="fa-brands fa-instagram"></i> @belleville_dental</a>
+            <a href="https://wa.me/923001234567" target="_blank" class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</a>
+        </div>
+    </div>
+    <div class="copyright">© 2026 Belleville Dental Clinic. All Rights Reserved.</div>
+</footer>
+
+<!-- TICKER -->
+<div class="ticker"><marquee id="ticker" scrollamount="6"><span id="liveTickerText">Welcome to Belleville Dental Clinic</span></marquee></div>
+
+<!-- FLOATING CHAT WIDGET -->
+<div class="chat-widget-btn" id="chatToggleBtn" title="Chat with us"><i class="fa-solid fa-comments"></i></div>
+<div class="chat-box-container" id="chatBox" style="display: none;">
+    <div class="chat-header">
+        <div class="chat-header-info"><h4>Belleville Dental Support</h4><p>Typically replies instantly</p></div>
+        <button type="button" class="chat-close-btn" id="chatCloseBtn">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+            👋 <strong>Welcome to Belleville Dental Clinic!</strong><br>
+            How can we help you with your smile today? Choose an option below or type your question. 😊
+        </div>
+    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies">
+        <button type="button" class="chat-quick-btn" data-topic="appointment">Appointment</button>
+        <button type="button" class="chat-quick-btn" data-topic="services">Services</button>
+        <button type="button" class="chat-quick-btn" data-topic="timing">Clinic Timing</button>
+        <button type="button" class="chat-quick-btn" data-topic="doctors">Doctors Info</button>
+        <button type="button" class="chat-quick-btn" data-topic="contact">WhatsApp / Contact</button>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+        <button type="button" id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="script.js"></script>
+
+<script>
+(function () {
+    function triggerCelebration() {
+        const canvas = document.getElementById("confettiCanvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const pieces = [];
+        const colors = ["#34d399", "#0d4a38", "#f59e0b", "#38bdf8", "#f43f5e", "#a855f7"];
+        for (let i = 0; i < 140; i++) {
+            pieces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                r: Math.random() * 7 + 4,
+                c: colors[Math.floor(Math.random() * colors.length)],
+                vy: Math.random() * 4 + 2,
+                vx: Math.random() * 2 - 1
+            });
+        }
+
+        let frames = 0;
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pieces.forEach(p => {
+                p.y += p.vy;
+                p.x += p.vx;
+                ctx.fillStyle = p.c;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            frames++;
+            if (frames < 180) {
+                requestAnimationFrame(animateConfetti);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+        animateConfetti();
+    }
+
+    const fCanvas = document.getElementById("foodCanvas");
+    const fCtx = fCanvas.getContext("2d");
+    let catcherRunning = false;
+    let catcherRafId = null;
+    let cScore = 0;
+    let cLives = 3;
+    let basketX = 270;
+    const basketW = 120;
+    const basketH = 50;
+    let fallingItems = [];
+    let spawnTimer = 0;
+
+    // Balanced pool: 3 healthy + 4 unhealthy so junk foods appear more frequently
+    const foodCatalog = [
+        { emoji: "🍎", name: "Apple", healthy: true, tip: "✅ Great! Apples naturally clean teeth and strengthen gums!" },
+        { emoji: "🥛", name: "Milk", healthy: true, tip: "✅ Awesome! Milk contains calcium which makes teeth strong!" },
+        { emoji: "💧", name: "Water", healthy: true, tip: "✅ Perfect! Water washes away cavity-causing sugar and bacteria!" },
+        { emoji: "🍫", name: "Chocolate", healthy: false, tip: "⚠️ Watch out! Too much chocolate causes tooth decay and cavities!" },
+        { emoji: "🥤", name: "Cold Drink", healthy: false, tip: "⚠️ Careful! Soda contains acid that damages tooth enamel!" },
+        { emoji: "🍬", name: "Candy", healthy: false, tip: "⚠️ Oops! Sticky candies stick to your teeth and cause cavities!" },
+        { emoji: "🍭", name: "Lollipop", healthy: false, tip: "⚠️ Danger! Lollipops coat teeth in sugar for a long time!" }
+    ];
+
+    function moveBasket(delta) {
+        basketX = Math.max(0, Math.min(fCanvas.width - basketW, basketX + delta));
+    }
+
+    fCanvas.addEventListener("mousemove", (e) => {
+        const rect = fCanvas.getBoundingClientRect();
+        if (!rect.width) return;
+        const scaleX = fCanvas.width / rect.width;
+        const mouseX = (e.clientX - rect.left) * scaleX;
+        basketX = Math.max(0, Math.min(fCanvas.width - basketW, mouseX - basketW / 2));
+    });
+
+    fCanvas.addEventListener("touchmove", (e) => {
+        if (!e.touches.length) return;
+        const rect = fCanvas.getBoundingClientRect();
+        if (!rect.width) return;
+        const scaleX = fCanvas.width / rect.width;
+        const touchX = (e.touches[0].clientX - rect.left) * scaleX;
+        basketX = Math.max(0, Math.min(fCanvas.width - basketW, touchX - basketW / 2));
+    }, { passive: true });
+
+    document.addEventListener("keydown", (e) => {
+        if (!catcherRunning) return;
+        if (e.key === "ArrowLeft") moveBasket(-55);
+        if (e.key === "ArrowRight") moveBasket(55);
+    });
+
+    function updateCatcherHUD() {
+        document.getElementById("catcherScore").textContent = cScore;
+        document.getElementById("catcherLives").textContent = "❤️".repeat(Math.max(0, cLives)) || "💔";
+    }
+
+    function startCatcherGame() {
+        if (catcherRafId) cancelAnimationFrame(catcherRafId);
+        cScore = 0;
+        cLives = 3;
+        fallingItems = [];
+        spawnTimer = 0;
+        basketX = (fCanvas.width - basketW) / 2;
+        catcherRunning = true;
+        document.getElementById("catcherResultBox").style.display = "none";
+        document.getElementById("foodTipBanner").textContent = "⚡ Fast Mode! Catch 🍎 🥛 💧 and dodge 🍫 🥤 🍬 🍭!";
+        updateCatcherHUD();
+        catcherRafId = requestAnimationFrame(catcherLoop);
+    }
+
+    function catcherLoop() {
+        if (!catcherRunning) return;
+        fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+
+        spawnTimer++;
+        if (spawnTimer > 13) {
+            spawnTimer = 0;
+            const food = foodCatalog[Math.floor(Math.random() * foodCatalog.length)];
+            fallingItems.push({
+                ...food,
+                x: Math.random() * (fCanvas.width - 50) + 25,
+                y: -30,
+                speed: 12 + Math.random() * 5
+            });
+        }
+
+        const bx = basketX;
+        const by = fCanvas.height - basketH - 10;
+
+        const basketGrad = fCtx.createLinearGradient(bx, by, bx, by + basketH);
+        basketGrad.addColorStop(0, "#d97706");
+        basketGrad.addColorStop(1, "#b45309");
+        fCtx.fillStyle = basketGrad;
+        fCtx.beginPath();
+        fCtx.moveTo(bx + 10, by + 10);
+        fCtx.lineTo(bx + basketW - 10, by + 10);
+        fCtx.lineTo(bx + basketW - 2, by + basketH);
+        fCtx.lineTo(bx + 2, by + basketH);
+        fCtx.closePath();
+        fCtx.fill();
+
+        fCtx.fillStyle = "#92400e";
+        fCtx.beginPath();
+        if (typeof fCtx.roundRect === "function") {
+            fCtx.roundRect(bx - 4, by, basketW + 8, 12, 6);
+        } else {
+            fCtx.rect(bx - 4, by, basketW + 8, 12);
+        }
+        fCtx.fill();
+
+        fCtx.strokeStyle = "#78350f";
+        fCtx.lineWidth = 5;
+        fCtx.beginPath();
+        fCtx.arc(bx + basketW / 2, by + 4, basketW / 2.2, Math.PI, 2 * Math.PI);
+        fCtx.stroke();
+
+        fCtx.fillStyle = "#ffffff";
+        fCtx.font = "bold 13px Poppins, sans-serif";
+        fCtx.textAlign = "center";
+        fCtx.fillText("SMILE BASKET", bx + basketW / 2, by + basketH - 12);
+
+        for (let i = fallingItems.length - 1; i >= 0; i--) {
+            const item = fallingItems[i];
+            item.y += item.speed;
+
+            fCtx.font = "34px Arial";
+            fCtx.fillText(item.emoji, item.x, item.y);
+
+            if (
+                item.y >= by - 10 &&
+                item.y <= by + basketH &&
+                item.x >= bx - 10 &&
+                item.x <= bx + basketW + 10
+            ) {
+                document.getElementById("foodTipBanner").textContent = item.tip;
+                if (item.healthy) {
+                    cScore += 10;
+                } else {
+                    cLives -= 1;
+                }
+                fallingItems.splice(i, 1);
+                updateCatcherHUD();
+
+                if (cScore >= 100) {
+                    catcherRunning = false;
+                    document.getElementById("catcherResultTitle").textContent = "🎉 Congratulations! You Won!";
+                    document.getElementById("catcherResultMsg").textContent = "You reached 100 points in fast mode and proved you know how to protect your teeth!";
+                    document.getElementById("catcherResultBox").style.display = "block";
+                    triggerCelebration();
+                    return;
+                } else if (cLives <= 0) {
+                    catcherRunning = false;
+                    document.getElementById("catcherResultTitle").textContent = "😢 Game Over! Try Again";
+                    document.getElementById("catcherResultMsg").textContent = "Avoid sweets & cold drinks and catch only healthy food items!";
+                    document.getElementById("catcherResultBox").style.display = "block";
+                    return;
+                }
+            } else if (item.y > fCanvas.height + 30) {
+                fallingItems.splice(i, 1);
+            }
+        }
+
+        catcherRafId = requestAnimationFrame(catcherLoop);
+    }
+
+    const dentalQuestions = [
+        { q: "1. How many times a day should you brush your teeth?", options: ["Only once a week", "Twice a day (Morning & Night before bed)", "Never", "Only on holidays"], ans: 1 },
+        { q: "2. How long should you brush your teeth each time?", options: ["5 seconds", "Full 2 minutes", "10 seconds", "1 hour"], ans: 1 },
+        { q: "3. Which food makes your teeth strong and healthy?", options: ["Milk and Apples", "Too many candies and toffees", "Cold drinks", "Sticky sweets"], ans: 0 },
+        { q: "4. When should you replace your toothbrush?", options: ["Every 3 to 4 months", "After 5 years", "Never replace it", "After 10 years"], ans: 0 },
+        { q: "5. How often should you visit the dentist for a checkup?", options: ["Every 6 months", "Only when a tooth falls out", "Never", "Only when you have a fever"], ans: 0 }
+    ];
+
+    let qIndex = 0;
+    let qScore = 0;
+    let kidPlayerName = "Super Kid";
+
+    function resetQuiz() {
+        qIndex = 0;
+        qScore = 0;
+        document.getElementById("quizStartScreen").style.display = "block";
+        document.getElementById("quizPlayScreen").style.display = "none";
+        document.getElementById("quizResultScreen").style.display = "none";
+    }
+
+    function startDentalQuiz() {
+        const val = document.getElementById("kidNameInput").value.trim();
+        kidPlayerName = val !== "" ? val : "Super Smile Kid";
+        qIndex = 0;
+        qScore = 0;
+        document.getElementById("quizStartScreen").style.display = "none";
+        document.getElementById("quizPlayScreen").style.display = "block";
+        loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+        const current = dentalQuestions[qIndex];
+        document.getElementById("quizProgress").textContent = `Question ${qIndex + 1} of ${dentalQuestions.length}`;
+        document.getElementById("quizQuestionText").textContent = current.q;
+        document.getElementById("quizFeedback").textContent = "";
+
+        const box = document.getElementById("quizOptionsBox");
+        box.innerHTML = "";
+        current.options.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "quiz-opt-btn";
+            btn.textContent = opt;
+            btn.addEventListener("click", () => checkQuizAnswer(idx, btn));
+            box.appendChild(btn);
+        });
+    }
+
+    function checkQuizAnswer(selectedIdx, btnEl) {
+        const current = dentalQuestions[qIndex];
+        const allBtns = document.querySelectorAll(".quiz-opt-btn");
+        allBtns.forEach(b => { b.disabled = true; });
+
+        const feedback = document.getElementById("quizFeedback");
+        if (selectedIdx === current.ans) {
+            btnEl.classList.add("correct");
+            qScore++;
+            feedback.style.color = "#16a34a";
+            feedback.textContent = "🌟 Correct Answer! Great job!";
+        } else {
+            btnEl.classList.add("wrong");
+            allBtns[current.ans].classList.add("correct");
+            feedback.style.color = "#dc2626";
+            feedback.textContent = "💡 Good try! The correct answer is highlighted in green.";
+        }
+
+        setTimeout(() => {
+            qIndex++;
+            if (qIndex < dentalQuestions.length) {
+                loadQuizQuestion();
+            } else {
+                showQuizCertificate();
+            }
+        }, 1300);
+    }
+
+    function showQuizCertificate() {
+        document.getElementById("quizPlayScreen").style.display = "none";
+        document.getElementById("quizResultScreen").style.display = "block";
+        document.getElementById("certKidName").textContent = kidPlayerName;
+        document.getElementById("certFinalScore").textContent = `${qScore} / ${dentalQuestions.length}`;
+        document.getElementById("certDate").textContent = new Date().toLocaleDateString("en-GB");
+        triggerCelebration();
+    }
+
+    document.getElementById("openCatcherCard").addEventListener("click", () => {
+        document.getElementById("catcherModal").classList.add("active");
+        startCatcherGame();
+    });
+    document.getElementById("closeCatcherBtn").addEventListener("click", () => {
+        document.getElementById("catcherModal").classList.remove("active");
+        catcherRunning = false;
+    });
+    document.getElementById("restartCatcherBtn").addEventListener("click", startCatcherGame);
+    document.getElementById("playAgainCatcherBtn").addEventListener("click", startCatcherGame);
+    document.getElementById("moveLeftBtn").addEventListener("click", () => moveBasket(-75));
+    document.getElementById("moveRightBtn").addEventListener("click", () => moveBasket(75));
+
+    document.getElementById("openQuizCard").addEventListener("click", () => {
+        document.getElementById("quizModal").classList.add("active");
+        resetQuiz();
+    });
+    document.getElementById("closeQuizBtn").addEventListener("click", () => {
+        document.getElementById("quizModal").classList.remove("active");
+    });
+    document.getElementById("startQuizBtn").addEventListener("click", startDentalQuiz);
+    document.getElementById("printCertBtn").addEventListener("click", () => window.print());
+    document.getElementById("retryQuizBtn").addEventListener("click", resetQuiz);
+})();
+</script>
+
+</body>
+</html>
