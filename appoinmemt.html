@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Appointment | Belleville Dental</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Flatpickr Calendar CSS CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    html { scroll-behavior: smooth; }
+    .visitor {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        background: rgba(255, 255, 255, 0.15); color: #ffffff; padding: 6px 14px;
+        border-radius: 50px; font-size: 13px; font-weight: 600; white-space: nowrap;
+    }
+    .visitor i { font-size: 14px; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropbtn { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+    .dropdown-content {
+        display: none; position: absolute; top: 100%; left: 0; background-color: #ffffff;
+        min-width: 175px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); border-radius: 10px;
+        z-index: 1000; overflow: hidden; border: 1px solid #e2e8f0; padding: 6px 0;
+    }
+    .dropdown-content a {
+        color: #1e293b !important; padding: 10px 16px !important; text-decoration: none;
+        display: block !important; font-size: 14px; transition: background 0.2s, color 0.2s; margin: 0 !important;
+    }
+    .dropdown-content a:hover { background-color: #e8f4f0; color: #0d4a38 !important; }
+    .dropdown:hover .dropdown-content { display: block; }
+
+    /* ===== HEART CALENDAR ===== */
+    .calendar-wrap { max-width: 380px; margin: 8px auto 6px; }
+    .calendar-wrap .flatpickr-calendar.inline,
+    .calendar-wrap .flatpickr-rContainer,
+    .calendar-wrap .flatpickr-days,
+    .calendar-wrap .dayContainer {
+        width: 100% !important; min-width: 100% !important; max-width: 100% !important;
+    }
+    .flatpickr-calendar.inline {
+        border-radius: 18px; border: 1px solid #d5ebe4; background: #ffffff;
+        box-shadow: 0 14px 34px rgba(13, 74, 56, 0.18); overflow: hidden;
+    }
+    .flatpickr-months { background: #0d4a38; padding: 6px 0; }
+    .flatpickr-months .flatpickr-month { background: transparent; color: #ffffff; fill: #ffffff; }
+    .flatpickr-current-month { font-weight: 600; }
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month input.cur-year { color: #ffffff; font-weight: 600; }
+    .flatpickr-current-month .flatpickr-monthDropdown-months { background: #0d4a38; }
+    .flatpickr-months .flatpickr-prev-month svg,
+    .flatpickr-months .flatpickr-next-month svg { fill: #ffffff; }
+    .flatpickr-months .flatpickr-prev-month:hover svg,
+    .flatpickr-months .flatpickr-next-month:hover svg { fill: #fda4af; }
+    .flatpickr-weekdays { background: #0d4a38; height: 32px; }
+    span.flatpickr-weekday { background: transparent; color: #a7d7c5; font-weight: 600; }
+    .flatpickr-day {
+        position: relative; max-width: none; height: 46px; line-height: 46px;
+        width: 14.2857%; flex-basis: 14.2857%; border: none; border-radius: 12px;
+        color: #1e293b; font-weight: 500; transition: background 0.2s;
+    }
+    .flatpickr-day:hover { background: #ffe4ea; border-color: transparent; }
+    .flatpickr-day.today { background: #fff1f3; color: #be123c; border: 1px dashed #fb7185; }
+    .flatpickr-day.flatpickr-disabled,
+    .flatpickr-day.flatpickr-disabled:hover { color: #cbd5e1; background: transparent; }
+
+    /* Jo date select ho wahan DIL ban jaye */
+    .flatpickr-day.selected,
+    .flatpickr-day.selected:hover,
+    .flatpickr-day.selected:focus {
+        background: transparent; border-color: transparent; color: #ffffff;
+        font-weight: 700; z-index: 1; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+    .flatpickr-day.selected::before {
+        content: ""; position: absolute; left: 50%; top: 50%; width: 46px; height: 46px;
+        transform: translate(-50%, -50%); z-index: -1;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23e11d48' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center / contain no-repeat;
+        filter: drop-shadow(0 4px 6px rgba(225, 29, 72, 0.4));
+        animation: heartPop 0.45s ease, heartBeat 1.4s ease-in-out 0.45s infinite;
+    }
+    @keyframes heartPop {
+        0%   { transform: translate(-50%, -50%) scale(0); }
+        60%  { transform: translate(-50%, -50%) scale(1.3); }
+        100% { transform: translate(-50%, -50%) scale(1); }
+    }
+    @keyframes heartBeat {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50%      { transform: translate(-50%, -50%) scale(1.12); }
+    }
+
+    .selected-date-text {
+        text-align: center; margin: 14px 0 4px; padding: 10px 14px; border-radius: 12px;
+        background: #f1f5f9; color: #64748b; font-size: 14px;
+    }
+    .selected-date-text.has-date { background: #fff1f3; color: #be123c; }
+    .selected-date-text.error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* ===== FORM VALIDATION ===== */
+    .field-error { display: block; color: #dc2626; font-size: 12.5px; font-weight: 500; margin-top: 2px; }
+    .demo-form .is-invalid { border-color: #dc2626 !important; background: #fff7f7 !important; }
+    .demo-form .is-invalid:focus { box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important; }
+    .demo-form .is-valid { border-color: #16a34a !important; }
+    .form-success {
+        display: none; background: #dcfce7; border: 2px solid #16a34a; color: #14532d;
+        padding: 14px 16px; border-radius: 12px; margin: 16px 0; text-align: center; font-size: 14.5px;
+    }
+
+    /* ===== Enhanced Balanced Footer CSS with Logo Animation ===== */
+    .footer-grid {
+        display: grid !important;
+        grid-template-columns: 1.5fr 0.9fr 0.9fr 1.15fr 1.25fr !important;
+        gap: 28px !important;
+        align-items: start;
+    }
+    @media (max-width: 1024px) {
+        .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 600px) {
+        .footer-grid { grid-template-columns: 1fr !important; }
+    }
+    .footer-brand-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .footer-brand-wrap img {
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+        animation: footerLogoFloat 3s ease-in-out infinite;
+        transition: transform 0.4s ease, filter 0.4s ease;
+        cursor: pointer;
+    }
+    .footer-brand-wrap img:hover {
+        animation-play-state: paused;
+        transform: scale(1.2) rotate(8deg);
+        filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.8));
+    }
+    @keyframes footerLogoFloat {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% {
+            transform: translateY(-6px) scale(1.06);
+            filter: drop-shadow(0 5px 8px rgba(52, 211, 153, 0.4));
+        }
+    }
+    .footer-brand-wrap h2 { margin: 0; letter-spacing: 1px; color: #ffffff; }
+    .footer-brand-wrap p { margin: 0; font-size: 12px; color: #a7d7c5; letter-spacing: 2px; text-transform: uppercase; }
+    
+    .footer-desc {
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: #b4c9be;
+        margin-bottom: 16px;
+    }
+
+    .footer-social-links { display: flex; gap: 10px; }
+    .footer-social-links a {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .footer-social-links a:hover { background: #34d399; color: #083325; transform: translateY(-3px); }
+
+    .footer-hours-list { list-style: none; padding: 0; margin: 0; }
+    .footer-hours-list li {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #b4c9be;
+        padding: 6px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+    .footer-hours-list li:last-child { border-bottom: none; }
+    .footer-hours-list li span:last-child { color: #a7d7c5; font-weight: 500; }
+
+    .footer-contact-item {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px !important;
+        color: #b4c9be;
+        font-size: 13.5px;
+        text-decoration: none;
+    }
+    .footer-contact-item i {
+        font-size: 15px;
+        color: #34d399;
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    a.footer-contact-item:hover { color: #34d399; }
+    .copyright {
+        text-align: center; padding: 20px 10px 0 10px; margin-top: 35px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; color: #8fa89b;
+    }
+
+    /* Floating Chat Button & Chatbox Styling */
+    .chat-widget-btn {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #0d4a38;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+        z-index: 9998;
+        transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .chat-widget-btn:hover {
+        transform: scale(1.06);
+        background: #176950;
+    }
+
+    .chat-box-container {
+        position: fixed;
+        right: 22px;
+        bottom: 52px;
+        width: 350px;
+        max-width: calc(100vw - 24px);
+        max-height: 75vh;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 9999;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #0d4a38, #2b7a62);
+        color: #ffffff;
+        padding: 13px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .chat-header-info h4 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .chat-header-info p {
+        margin: 2px 0 0;
+        font-size: 11.5px;
+        opacity: 0.9;
+    }
+    .chat-close-btn {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0 4px;
+    }
+
+    .chat-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        background: #f8fafc;
+    }
+    .chat-message {
+        padding: 10px 13px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.45;
+        max-width: 86%;
+        word-wrap: break-word;
+    }
+    .chat-message.bot {
+        background: #ffffff;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        align-self: flex-start;
+    }
+    .chat-message.user {
+        background: #0d4a38;
+        color: #ffffff;
+        align-self: flex-end;
+    }
+    .chat-message.bot a {
+        color: #0d4a38;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    /* Chatbox Quick Replies & Link Styling */
+    .chat-quick-replies {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 8px 12px;
+        background: #f1f5f9;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-quick-btn {
+        background: #ffffff;
+        color: #0d4a38;
+        border: 1px solid #0d4a38;
+        border-radius: 16px;
+        padding: 4px 10px;
+        font-size: 11.5px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .chat-quick-btn:hover {
+        background: #0d4a38;
+        color: #ffffff;
+    }
+
+    .chat-footer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+    }
+    .chat-input {
+        flex: 1;
+        padding: 9px 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        outline: none;
+    }
+    .chat-input:focus {
+        border-color: #0d4a38;
+    }
+    .chat-send-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: #0d4a38;
+        color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background 0.2s ease;
+    }
+    .chat-send-btn:hover {
+        background: #176950;
+    }
+</style>
+</head>
+<body>
+
+<header class="header">
+    <a href="index.html" class="logo">
+        <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo" class="logo-img">
+        <span>BELLEVILLE<small>DENTAL CLINIC</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="doctors.html">Doctors</a>
+        <a href="services.html">Services</a>
+        <a href="research.html">Research</a>
+        <a href="products.html">Products</a>
+        <a href="kidsgaming.html">Kids Zone</a>
+        <a href="gellery.html">Gallery</a>
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">More <i class="fa-solid fa-caret-down"></i></a>
+            <div class="dropdown-content">
+                <a href="FAQ.html"><i class="fa-solid fa-circle-question"></i> FAQs</a>
+                <a href="index.html#reviews-section"><i class="fa-solid fa-star"></i> Patient Reviews</a>
+                <a href="sitemap.html"><i class="fa-solid fa-sitemap"></i> Sitemap</a>
+            </div>
+        </div>
+        <a href="contact.html">Contact</a>
+        <a class="nav-appointment" href="appoinment.html">Book Appointment</a>
+    </nav>
+    <div class="visitor" title="Total Visitors"><i class="fa-solid fa-eye"></i> <span id="visitorCount">0</span></div>
+</header>
+
+<section class="page-banner"><h1>Online Appointment</h1><p>Schedule your dental visit with us</p></section>
+
+<section class="content">
+<div class="form-box">
+<h2>Book Your Appointment</h2>
+<p>Please fill in your details.</p>
+
+<div class="form-success" id="formSuccess"></div>
+
+<form class="demo-form" data-form="Appointment" novalidate>
+<label>Full Name</label>
+<input type="text" name="name" placeholder="Enter your full name" maxlength="50" autocomplete="name">
+
+<label>Phone Number</label>
+<input type="tel" name="phone" placeholder="03XXXXXXXXX" maxlength="14" inputmode="tel" autocomplete="tel">
+
+<label>Email Address</label>
+<input type="email" name="email" placeholder="Enter your email" autocomplete="email">
+
+<label>Select Doctor</label>
+<select name="doctor">
+<option value="">Choose Doctor</option>
+<option>Dr. Ahmed Khan (General Dentistry)</option>
+<option>Dr. Sara Ahmed (Orthodontics)</option>
+<option>Dr. Bilal Ali (Root Canal Specialist)</option>
+<option>Dr. Ayesha Malik (Kids Dentistry)</option>
+<option>Dr. Usman Tariq (Dental Implants)</option>
+<option>Dr. Hina Zafar (Cosmetic Dentistry)</option>
+</select>
+
+<label>Select Dental Service</label>
+<select name="service">
+<option value="">Choose Service</option>
+<option>General Dentistry</option>
+<option>Teeth Whitening</option>
+<option>Orthodontics</option>
+<option>Root Canal</option>
+<option>Dental Implants</option>
+<option>Kids Dentistry</option>
+<option>Emergency Consultation</option>
+</select>
+
+<label>Appointment Date</label>
+<input type="text" name="date" id="appointmentDate" placeholder="Select a date from the calendar below">
+<div class="calendar-wrap"></div>
+<div class="selected-date-text" id="selectedDateText">Please select a date from the calendar</div>
+
+<label>Preferred Time</label>
+<select name="time">
+<option value="">Choose Time</option>
+<option>10:00 AM</option>
+<option>11:00 AM</option>
+<option>12:00 PM</option>
+<option>02:00 PM</option>
+<option>03:00 PM</option>
+<option>04:00 PM</option>
+<option>05:00 PM</option>
+<option>06:00 PM</option>
+</select>
+
+<label>Additional Message (optional)</label>
+<textarea name="message" rows="4" maxlength="300" placeholder="Tell us about your dental concern"></textarea>
+
+<button type="submit" class="btn">Submit Appointment</button>
+</form>
+<p style="margin-top:20px;font-size:13px">Demo booking form: submitting does not reserve an actual clinic appointment. A backend is required for real bookings.</p>
+</div>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand-wrap">
+                <img src="photo/WhatsApp_Image_2026-11-10_at_9.17.55_PM-removebg-preview.png" alt="Belleville Dental Logo">
+                <div>
+                    <h2>BELLEVILLE</h2>
+                    <p>Dental Clinic</p>
+                </div>
+            </div>
+            <p class="footer-desc">Providing gentle, modern, and trusted dental care for healthy smiles and happier lives.</p>
+            <div class="footer-social-links">
+                <a href="https://instagram.com/belleville_dental" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/923001234567" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div>
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="FAQ.html">FAQs</a>
+        </div>
+        <div>
+            <h3>Explore</h3>
+            <a href="products.html">Products</a>
+            <a href="kidsgaming.html">Kids Zone</a>
+            <a href="index.html#reviews-section">Reviews</a>
+            <a href="sitemap.html">Sitemap</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div>
+            <h3>Opening Hours</h3>
+            <ul class="footer-hours-list">
+                <li><span>Mon - Fri</span><span>10:00 AM - 9:00 PM</span></li>
+                <li><span>Saturday</span><span>11:00 AM - 7:00 PM</span></li>
+                <li><span>Sunday</span><span>Closed</span></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Karachi, Pakistan</p>
+            <p class="footer-contact-item"><i class="fa-solid fa-phone"></i> +92 300 0000000</p>
+            <a href="https://instagram.com/belleville_dental" target="_blank" class="footer-contact-item"><i class="fa-brands fa-instagram"></i> @belleville_dental</a>
+            <a href="https://wa.me/923001234567" target="_blank" class="footer-contact-item"><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</a>
+        </div>
+    </div>
+    <div class="copyright">© 2026 Belleville Dental Clinic. All Rights Reserved.</div>
+</footer>
+
+<div class="ticker"><marquee id="ticker" scrollamount="6"><span id="liveTickerText">Welcome to Belleville Dental Clinic</span></marquee></div>
+
+<div class="chat-widget-btn" id="chatToggleBtn" title="Chat with us"><i class="fa-solid fa-comments"></i></div>
+<div class="chat-box-container" id="chatBox" style="display: none;">
+    <div class="chat-header">
+        <div class="chat-header-info"><h4>Belleville Dental Support</h4><p>Typically replies instantly</p></div>
+        <button type="button" class="chat-close-btn" id="chatCloseBtn">&times;</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+            👋 <strong>Welcome to Belleville Dental Clinic!</strong><br>
+            How can we help you with your smile today? Choose an option below or type your question. 😊
+        </div>
+    </div>
+    <div class="chat-quick-replies" id="chatQuickReplies">
+        <button type="button" class="chat-quick-btn" data-topic="appointment">Appointment</button>
+        <button type="button" class="chat-quick-btn" data-topic="services">Services</button>
+        <button type="button" class="chat-quick-btn" data-topic="timing">Clinic Timing</button>
+        <button type="button" class="chat-quick-btn" data-topic="doctors">Doctors Info</button>
+        <button type="button" class="chat-quick-btn" data-topic="contact">WhatsApp / Contact</button>
+    </div>
+    <div class="chat-footer">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+        <button type="button" id="chatSendBtn" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+</div>
+
+<!-- jQuery & Flatpickr JS CDNs -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+/* ===== VALIDATION RULES ===== */
+var rules = {
+    name: function (v) {
+        if (!v) return "Please enter your full name.";
+        if (v.length < 3) return "Name must be at least 3 characters.";
+        if (v.length > 50) return "Name is too long (max 50 characters).";
+        if (!/^[A-Za-z\u0600-\u06FF][A-Za-z\u0600-\u06FF .'-]*$/.test(v)) return "Name can contain only letters and spaces.";
+        return "";
+    },
+    phone: function (v) {
+        if (!v) return "Please enter your phone number.";
+        var c = v.replace(/[\s-]/g, "");
+        if (!/^(03\d{9}|\+923\d{9}|923\d{9})$/.test(c)) return "Enter a valid mobile number, e.g. 03001234567.";
+        return "";
+    },
+    email: function (v) {
+        if (!v) return "Please enter your email address.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Enter a valid email, e.g. name@example.com.";
+        return "";
+    },
+    doctor:  function (v) { return v ? "" : "Please choose a doctor."; },
+    service: function (v) { return v ? "" : "Please choose a dental service."; },
+    date:    function (v) { return v ? "" : "Please select a date from the calendar."; },
+    time:    function (v) { return v ? "" : "Please choose a preferred time."; },
+    message: function (v) { return v.length > 300 ? "Message must be 300 characters or less." : ""; }
+};
+
+$(function () {
+    var form = document.querySelector("form.demo-form");
+    var dateText = document.getElementById("selectedDateText");
+    var successBox = document.getElementById("formSuccess");
+    var DEFAULT_DATE_TEXT = "Please select a date from the calendar";
+
+    /* ===== HEART CALENDAR ===== */
+    var fp = flatpickr("#appointmentDate", {
+        inline: true,
+        appendTo: document.querySelector(".calendar-wrap"),
+        minDate: "today",
+        dateFormat: "Y-m-d",
+        disable: [function (date) { return date.getDay() === 0; }],   // Sunday band
+        onChange: function (selectedDates, dateStr, instance) {
+            if (selectedDates.length) {
+                dateText.innerHTML = "💖 Your appointment date: <b>" + instance.formatDate(selectedDates[0], "l, j F Y") + "</b>";
+                dateText.className = "selected-date-text has-date";
+            }
+        }
+    });
+
+    var fields = Array.prototype.filter.call(form.elements, function (f) { return rules[f.name]; });
+
+    function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+
+    function getErrorEl(field) {
+        var next = field.nextElementSibling;
+        if (!next || !next.classList.contains("field-error")) {
+            next = document.createElement("small");
+            next.className = "field-error";
+            field.insertAdjacentElement("afterend", next);
+        }
+        return next;
+    }
+
+    function validateField(field) {
+        var rule = rules[field.name];
+        if (!rule) return true;
+        var value = field.value.trim();
+        var msg = rule(value);
+        if (field.name === "date") {
+            if (msg) {
+                dateText.textContent = "⚠️ " + msg;
+                dateText.className = "selected-date-text error";
+            }
+            return !msg;
+        }
+        getErrorEl(field).textContent = msg;
+        field.classList.toggle("is-invalid", !!msg);
+        field.classList.toggle("is-valid", !msg && value !== "");
+        return !msg;
+    }
+
+    // Phone mein sirf number, +, space aur - likh sakein
+    form.elements["phone"].addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9+\s-]/g, "");
+    });
+
+    fields.forEach(function (f) {
+        if (f.name === "date") return;
+        f.addEventListener("blur", function () { validateField(f); });
+        f.addEventListener("change", function () { validateField(f); });
+        f.addEventListener("input", function () {
+            if (f.classList.contains("is-invalid") || f.classList.contains("is-valid")) validateField(f);
+        });
+    });
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        successBox.style.display = "none";
+
+        var firstBad = null;
+        fields.forEach(function (f) {
+            if (!validateField(f) && !firstBad) firstBad = f;
+        });
+
+        if (firstBad) {
+            if (firstBad.name === "date") {
+                dateText.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+                firstBad.focus({ preventScroll: true });
+                firstBad.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            return;
+        }
+
+        var v = function (n) { return form.elements[n].value.trim(); };
+        successBox.innerHTML = "✅ Thank you, <b>" + esc(v("name")) + "</b>! Your appointment request for <b>" +
+            esc(v("date")) + "</b> at <b>" + esc(v("time")) + "</b> with <b>" + esc(v("doctor")) +
+            "</b> has been received. We will call you on <b>" + esc(v("phone")) + "</b> to confirm.";
+
+        form.reset();
+        fp.clear();
+        fields.forEach(function (f) {
+            f.classList.remove("is-valid", "is-invalid");
+            var err = f.nextElementSibling;
+            if (err && err.classList.contains("field-error")) err.textContent = "";
+        });
+        dateText.textContent = DEFAULT_DATE_TEXT;
+        dateText.className = "selected-date-text";
+
+        successBox.style.display = "block";
+        successBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+});
+</script>
+<script src="script.js"></script>
+</body>
+</html>
