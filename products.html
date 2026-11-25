@@ -54,9 +54,50 @@
     }
     .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(13, 74, 56, 0.14); }
     .product-badge { position: absolute; top: 14px; left: 14px; background: #0d4a38; color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 50px; z-index: 2; }
-    .product-img-wrap { width: 100%; height: 210px; background: #f1f5f9; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .product-img-wrap { width: 100%; height: 210px; background: #f1f5f9; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: zoom-in; }
     .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
     .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+
+    /* ===== Product Lightbox Styling ===== */
+    .lightbox-backdrop {
+        display: none; position: fixed; inset: 0; background: rgba(4, 18, 13, 0.88);
+        z-index: 3500; align-items: center; justify-content: center; padding: 20px;
+    }
+    .lightbox-backdrop.active { display: flex; }
+    .lightbox-content {
+        position: relative; background: #ffffff; max-width: 720px; width: 100%;
+        border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    .lightbox-img-box {
+        width: 100%; max-height: 440px; background: #0f172a;
+        display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .lightbox-img-box img {
+        max-width: 100%; max-height: 440px; object-fit: contain; display: block;
+    }
+    .lightbox-caption {
+        padding: 16px 22px; display: flex; flex-wrap: wrap; justify-content: space-between;
+        align-items: center; gap: 12px; background: #ffffff;
+    }
+    .lightbox-title { margin: 0 0 4px; font-size: 17px; font-weight: 700; color: #0f172a; }
+    .lightbox-desc { margin: 0; font-size: 13px; color: #475569; }
+    .lightbox-price { font-size: 18px; font-weight: 800; color: #0d4a38; white-space: nowrap; }
+    .lightbox-close {
+        position: absolute; top: 12px; right: 12px; width: 38px; height: 38px;
+        border-radius: 50%; border: none; background: rgba(15, 23, 42, 0.75);
+        color: #ffffff; font-size: 22px; line-height: 1; cursor: pointer; z-index: 2;
+    }
+    .lightbox-close:hover { background: #0d4a38; }
+    .lightbox-nav {
+        position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px;
+        border-radius: 50%; border: none; background: rgba(15, 23, 42, 0.7);
+        color: #ffffff; font-size: 22px; cursor: pointer; z-index: 2;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-nav:hover { background: #0d4a38; }
+    .lightbox-prev { left: 12px; }
+    .lightbox-next { right: 12px; }
+
     .product-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
     .product-category { font-size: 12px; color: #2b7a62; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     .product-title { font-size: 17px; font-weight: 700; color: #0f172a; margin: 5px 0 6px; }
@@ -444,6 +485,25 @@
     <div class="products-grid" id="productsGrid"></div>
 </section>
 
+<!-- Product Lightbox Modal -->
+<div class="lightbox-backdrop" id="productLightbox">
+    <div class="lightbox-content">
+        <button type="button" class="lightbox-close" id="closeLightboxBtn" title="Close">&times;</button>
+        <button type="button" class="lightbox-nav lightbox-prev" id="prevLightboxBtn" title="Previous">&lsaquo;</button>
+        <div class="lightbox-img-box">
+            <img id="lightboxImg" src="" alt="">
+        </div>
+        <button type="button" class="lightbox-nav lightbox-next" id="nextLightboxBtn" title="Next">&rsaquo;</button>
+        <div class="lightbox-caption">
+            <div>
+                <h3 class="lightbox-title" id="lightboxTitle"></h3>
+                <p class="lightbox-desc" id="lightboxDesc"></p>
+            </div>
+            <div class="lightbox-price" id="lightboxPrice"></div>
+        </div>
+    </div>
+</div>
+
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-drawer" id="cartDrawer">
     <div class="cart-drawer-header"><h3><i class="fa-solid fa-bag-shopping"></i> Your Shopping Cart</h3><button class="close-cart" id="closeCartBtn">&times;</button></div>
@@ -569,21 +629,69 @@
     ];
     let cart = JSON.parse(localStorage.getItem("belleville_cart")) || [];
     let activeCheckoutItems = [];
+    let visibleProducts = [...productsData];
+    let lightboxIndex = 0;
+
+    const productLightbox = document.getElementById("productLightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxTitle = document.getElementById("lightboxTitle");
+    const lightboxDesc = document.getElementById("lightboxDesc");
+    const lightboxPrice = document.getElementById("lightboxPrice");
+
+    function updateLightboxContent() {
+        if (!visibleProducts.length) return;
+        const item = visibleProducts[lightboxIndex];
+        lightboxImg.src = item.img;
+        lightboxImg.alt = item.name;
+        lightboxTitle.textContent = item.name;
+        lightboxDesc.textContent = item.desc;
+        lightboxPrice.textContent = "Rs. " + item.price.toLocaleString();
+    }
+
+    function openLightbox(productId) {
+        const idx = visibleProducts.findIndex(p => p.id === productId);
+        lightboxIndex = idx >= 0 ? idx : 0;
+        updateLightboxContent();
+        productLightbox.classList.add("active");
+    }
+
+    function closeLightbox() {
+        productLightbox.classList.remove("active");
+    }
+
+    function stepLightbox(delta) {
+        if (!visibleProducts.length) return;
+        lightboxIndex = (lightboxIndex + delta + visibleProducts.length) % visibleProducts.length;
+        updateLightboxContent();
+    }
+
+    document.getElementById("closeLightboxBtn").addEventListener("click", closeLightbox);
+    document.getElementById("prevLightboxBtn").addEventListener("click", () => stepLightbox(-1));
+    document.getElementById("nextLightboxBtn").addEventListener("click", () => stepLightbox(1));
+    productLightbox.addEventListener("click", function (e) {
+        if (e.target === productLightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (!productLightbox.classList.contains("active")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") stepLightbox(-1);
+        if (e.key === "ArrowRight") stepLightbox(1);
+    });
 
     function renderProducts(filter = "all", searchQuery = "") {
         const grid = document.getElementById("productsGrid");
         grid.innerHTML = "";
-        const filtered = productsData.filter(item => {
+        visibleProducts = productsData.filter(item => {
             const matchesCategory = filter === "all" || item.category === filter;
             const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || item.desc.toLowerCase().includes(searchQuery.toLowerCase());
             return matchesCategory && matchesSearch;
         });
-        if (filtered.length === 0) { grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#64748b; padding:40px;">No products found.</p>`; return; }
-        filtered.forEach(p => {
+        if (visibleProducts.length === 0) { grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#64748b; padding:40px;">No products found.</p>`; return; }
+        visibleProducts.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
                     <span class="product-badge">${p.badge}</span>
-                    <div class="product-img-wrap"><img src="${p.img}" alt="${p.name}"></div>
+                    <div class="product-img-wrap" onclick="openLightbox(${p.id})" title="Click to view full image"><img src="${p.img}" alt="${p.name}"></div>
                     <div class="product-info">
                         <span class="product-category">${p.categoryLabel}</span>
                         <h3 class="product-title">${p.name}</h3>
@@ -675,3 +783,4 @@
 </script>
 </body>
 </html>
+```[cite: 5]
